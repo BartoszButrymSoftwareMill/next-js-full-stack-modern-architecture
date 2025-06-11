@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres
+    container_name: readium_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: readium
+    ports:
+      - 5432:5432
+    volumes:
+      - dockerreadiumdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d readium"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  dockerreadiumdata:
